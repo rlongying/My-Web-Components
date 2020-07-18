@@ -1,0 +1,16 @@
+main {
+  background: #f3eded;
+  margin: 0 auto;
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 30px;
+}
+
+.container {
+  padding: 20px;
+  background: #ffffff;
+  width: 300px;
+  height: 300px;
+}
