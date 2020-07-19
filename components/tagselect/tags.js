@@ -156,6 +156,14 @@ export function bindData(data, select, name) {
   modifyOptions(dropdown, options);
 }
 
+function closeAllSelect(current) {
+  document.querySelectorAll('.dropdown-list').forEach((dropdown) => {
+    if (dropdown != current && !dropdown.classList.contains('hidden')) {
+      dropdown.classList.add('hidden');
+    }
+  });
+}
+
 export default function bindTagSelectEvents() {
   const dropdownControls = document.querySelectorAll('.dropdown-control');
   bindEvents(dropdownControls, 'click', toggleDropDown);
@@ -187,17 +195,20 @@ export default function bindTagSelectEvents() {
   //   bindEvents(closeTags, 'click', closeTag);
 
   // click outer of dropdown list will hide it.
-  document.addEventListener('click', function (e) {
-    document.querySelectorAll('.dropdown-list').forEach((dropdown) => {
-      if (!dropdown.classList.contains('hidden')) {
-        dropdown.classList.add('hidden');
-      }
-    });
-  });
+  document.addEventListener('click', closeAllSelect);
 
-  document.querySelectorAll('.tags-select').forEach((select) => {
-    select.addEventListener('click', function (e) {
+  //   document.querySelectorAll('.tags-select').forEach((select) => {
+  //     select.addEventListener('click', function (e) {
+  //       e.stopPropagation();
+
+  //     });
+  //   });
+
+  document.querySelectorAll('.tags-input').forEach((input) => {
+    input.addEventListener('click', function (e) {
       e.stopPropagation();
+      closeAllSelect(this);
+      this.nextElementSibling.classList.toggle('hidden');
     });
   });
 }
