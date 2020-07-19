@@ -185,4 +185,19 @@ export default function bindTagSelectEvents() {
 
   //   const closeTags = document.querySelectorAll('.close-tag');
   //   bindEvents(closeTags, 'click', closeTag);
+
+  // click outer of dropdown list will hide it.
+  document.addEventListener('click', function (e) {
+    document.querySelectorAll('.dropdown-list').forEach((dropdown) => {
+      if (!dropdown.classList.contains('hidden')) {
+        dropdown.classList.add('hidden');
+      }
+    });
+  });
+
+  document.querySelectorAll('.tags-select').forEach((select) => {
+    select.addEventListener('click', function (e) {
+      e.stopPropagation();
+    });
+  });
 }

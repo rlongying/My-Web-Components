@@ -22,11 +22,11 @@ window.onload = async function () {
   const data2 = [
     {
       value: 11,
-      text: 'word',
+      text: 'word11',
     },
     {
       value: 22,
-      text: 'word',
+      text: 'word22',
     },
     {
       value: 33,
