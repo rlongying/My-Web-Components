@@ -16,6 +16,9 @@ function stopEventPropagation(e) {
 }
 
 function onClearTagsClick(e) {
+  // stop the event from trigging the click event of its parent
+  // container, which will toggle the dropdown list
+  e.stopPropagation();
   const tagselectContainer = findParentWithClass(e.target, 'tags-select');
   if (!tagselectContainer) {
     return;
