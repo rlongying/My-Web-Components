@@ -103,3 +103,7 @@
 .hidden {
   display: none !important;
 }
+
+option:checked {
+  background: rgb(64, 87, 87);
+}

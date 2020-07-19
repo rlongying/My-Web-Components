@@ -1,4 +1,4 @@
-export function renderElement(element, file) {
+export async function renderElement(element, file) {
   let xhr;
   return new Promise((resolver, reject) => {
     /* Make an HTTP request using the attribute value as the file name: */
@@ -14,7 +14,7 @@ export function renderElement(element, file) {
         }
         /* Remove the attribute, and call this function once more: */
         element.removeAttribute('w3-include-html');
-        includeHTML();
+        // await includeHTML();
         resolver('success');
       }
     };
@@ -36,15 +36,25 @@ export async function includeHTML() {
       /* Make an HTTP request using the attribute value as the file name: */
       await renderElement(element, file);
       /* Exit the function: */
-      return;
+      // return;
     }
   }
 }
 
-export const bindEvent = (elements, eventType, event) => {
+/**
+ * bind events for a list of elements
+ * @param {HTMLElement} elements
+ * @param {string} eventType
+ * @param {function} handler
+ */
+export const bindEvents = (elements, eventType, handler) => {
   for (let i = 0; i < elements.length; i++) {
-    elements[i].addEventListener(eventType, event);
+    elements[i].addEventListener(eventType, handler);
   }
+};
+
+export const bindEvent = (element, eventType, handler) => {
+  element.addEventListener(eventType, handler);
 };
 
 /**
