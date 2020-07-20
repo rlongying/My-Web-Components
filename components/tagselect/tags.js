@@ -189,8 +189,8 @@ function closeAllSelect(current) {
 }
 
 export default function bindTagSelectEvents() {
-  const dropdownControls = document.querySelectorAll('.dropdown-control');
-  bindEvents(dropdownControls, 'click', toggleDropDown);
+  //   const dropdownControls = document.querySelectorAll('.dropdown-control');
+  //   bindEvents(dropdownControls, 'click', toggleDropDown);
   //   for (let i = 0; i < dropdownControls.length; i++) {
   //     dropdownControls[i].addEventListener('click', toggleDropDown);
   //   }
