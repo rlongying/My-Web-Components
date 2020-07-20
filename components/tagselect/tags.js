@@ -1,14 +1,25 @@
 import { bindEvents, findParentWithClass, bindEvent } from '../../utils.js';
 
 function toggleDropDown(e) {
+  e.stopPropagation();
   let tagselectContainer = findParentWithClass(e.target, 'tags-select');
 
   if (!tagselectContainer) {
     return;
   }
-
+  togglePlaceHolder(tagselectContainer);
   const dropdown = tagselectContainer.querySelector('.dropdown-list');
+  closeAllSelect(dropdown);
   dropdown.classList.toggle('hidden');
+}
+
+function togglePlaceHolder(select) {
+  let tags = select.querySelectorAll('.tag');
+  if (tags.length > 0) {
+    select.querySelector('.placeholder').classList.add('hidden');
+  } else {
+    select.querySelector('.placeholder').classList.remove('hidden');
+  }
 }
 
 function stopEventPropagation(e) {
@@ -19,6 +30,7 @@ function onClearTagsClick(e) {
   // stop the event from trigging the click event of its parent
   // container, which will toggle the dropdown list
   e.stopPropagation();
+  closeAllSelect();
   const tagselectContainer = findParentWithClass(e.target, 'tags-select');
   if (!tagselectContainer) {
     return;
@@ -26,6 +38,7 @@ function onClearTagsClick(e) {
   clearTags(tagselectContainer);
   clearInputs(tagselectContainer);
   resetOptions(tagselectContainer);
+  togglePlaceHolder(tagselectContainer);
 }
 
 function resetOptions(select) {
@@ -74,6 +87,7 @@ function clearInputs(select) {
 }
 
 function closeTag(e) {
+  closeAllSelect();
   const tagContainer = findParentWithClass(e.target, 'tag');
   const select = findParentWithClass(e.target, 'tags-select');
   const textContent = tagContainer.querySelector('.tag-text').textContent;
@@ -95,6 +109,7 @@ function closeTag(e) {
 
   // remove input
   removeInput(select, value);
+  togglePlaceHolder(select);
 }
 
 function addInput(select, value, name) {
@@ -148,8 +163,10 @@ export function bindData(data, select, name) {
       return;
     }
     option.selected = true;
+
     addInput(select, option.value, name);
     addTag(select, option.textContent);
+    togglePlaceHolder(select);
   }
   data.forEach((option) => {
     const optionElement = createOption(option.value, option.text);
@@ -159,6 +176,10 @@ export function bindData(data, select, name) {
   modifyOptions(dropdown, options);
 }
 
+/**
+ *
+ * @param {HTMLElement} current - the dropdown list in the same parent container of click target
+ */
 function closeAllSelect(current) {
   document.querySelectorAll('.dropdown-list').forEach((dropdown) => {
     if (dropdown != current && !dropdown.classList.contains('hidden')) {
@@ -208,10 +229,6 @@ export default function bindTagSelectEvents() {
   //   });
 
   document.querySelectorAll('.tags-input').forEach((input) => {
-    input.addEventListener('click', function (e) {
-      e.stopPropagation();
-      closeAllSelect(this);
-      this.nextElementSibling.classList.toggle('hidden');
-    });
+    input.addEventListener('click', toggleDropDown);
   });
 }

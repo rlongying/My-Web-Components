@@ -67,13 +67,14 @@ export const bindEvent = (element, eventType, handler) => {
 export function findParentWithClass(cur, className) {
   // find the container of tags select
   while (
+    cur.classList &&
     !cur.classList.contains(className) &&
     cur.nodeName.toLowerCase() != 'body'
   ) {
     cur = cur.parentNode;
   }
 
-  if (!cur.classList.contains(className)) {
+  if (!cur.classList || !cur.classList.contains(className)) {
     // no match found
     return null;
   }
